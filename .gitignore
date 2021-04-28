@@ -1,0 +1,5 @@
+/target/
+/allure-results/
+/extent-reports/
+debug.log
+generate_allure_report.bat
