@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import com.shaft.api.RestActions;
 import com.shaft.api.RestActions.RequestType;
 
+import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -27,16 +28,16 @@ public class RestfulBookerApi {
     }
 
     @SuppressWarnings("unchecked")
+    @Step("Login")
     public void login(String username, String password) {
 	JSONObject authentication = new JSONObject();
 	authentication.put("username", username);
 	authentication.put("password", password);
-	Response createToken = apiObject.performRequest(RequestType.POST, SUCCESS, auth_serviceName, authentication,
-		ContentType.JSON);
-//	Response createToken = apiObject.buildNewRequest(auth_serviceName, RequestType.POST)
-//		.setRequestBody(authentication)
-//		.setContentType(ContentType.JSON)
-//		.performRequest();
+
+	Response createToken = apiObject.buildNewRequest(auth_serviceName, RequestType.POST)
+		.setRequestBody(authentication)
+		.setContentType(ContentType.JSON)
+		.performRequest();
 	String token = RestActions.getResponseJSONValue(createToken, "token");
 	apiObject.addHeaderVariable("Cookie", "token=" + token);
     }

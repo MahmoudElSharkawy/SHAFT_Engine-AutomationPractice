@@ -4,9 +4,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.shaft.api.RestActions;
+import com.shaft.driver.DriverFactory;
 import com.shaft.validation.Assertions;
 import com.shaft.validation.Verifications;
 
+import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import objectModels.RestfulBookerApi;
 import objectModels.RestfulBookerApiBooking;
@@ -18,7 +20,7 @@ public class RestfulBooker {
 
     @BeforeClass
     public void beforeClass() {
-	apiObject = new RestActions(RestfulBookerApi.BASE_URL);
+	apiObject = DriverFactory.getAPIDriver(RestfulBookerApi.BASE_URL);
 	restfulBookerApi = new RestfulBookerApi(apiObject);
 	restfulBookerApiBooking = new RestfulBookerApiBooking(apiObject);
 	
@@ -27,17 +29,20 @@ public class RestfulBooker {
     
     ////////////////////////// TEST CASES! ////////////////////////////
 
-    @Test
+    @Test(description = "Booking - Get Booking Ids")
+    @Description("Returns the ids of all the bookings that exist within the API. Can take optional query strings to search and return a subset of booking ids.")
     public void getBookingIds() {
 	restfulBookerApiBooking.getBookingIds();
     }
 
-    @Test
+    @Test(description = "Booking - GetBooking")
+    @Description("Returns a specific booking based upon the booking id provided")
     public void getBooking() {
 	restfulBookerApiBooking.getBooking("1");
     }
 
-    @Test
+    @Test(description = "Booking - CreateBooking")
+    @Description("Creates a new booking in the API")
     public void createBooking() {
 	// Create Booking
 	Response createBookingRes = restfulBookerApiBooking.createBooking("Mahmoud", "ElSharkawy", 1000, true, "2020-01-01",
@@ -61,7 +66,8 @@ public class RestfulBooker {
 		System.getProperty("jsonFolderPath") + "RestfulBooker/booking.json");
     }
 
-    @Test(dependsOnMethods = { "createBooking" })
+    @Test(description = "", dependsOnMethods = { "createBooking" })
+    @Description("Returns the ids of all the bookings that exist within the API. Can take optional query strings to search and return a subset of booking ids.")
     public void deleteBooking() {
 	Response getBookingId = restfulBookerApiBooking.getBookingIdsByNames("Mahmoud", "ElSharkawy");
 	String bookingId = RestActions.getResponseJSONValue(getBookingId, "bookingid[0]");
