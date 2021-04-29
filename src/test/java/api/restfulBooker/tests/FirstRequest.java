@@ -1,4 +1,4 @@
-package tests;
+package api.restfulBooker.tests;
 
 import java.util.Arrays;
 import java.util.List;

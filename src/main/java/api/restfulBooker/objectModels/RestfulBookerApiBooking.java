@@ -1,4 +1,4 @@
-package objectModels;
+package api.restfulBooker.objectModels;
 
 import org.json.simple.JSONObject;
 
@@ -27,7 +27,7 @@ public class RestfulBookerApiBooking {
     }
     
     @Step("Get Booking Ids By Names")
-    public Response getBookingIdsByNames(String firstName, String lastName) {
+    public Response getBookingIds(String firstName, String lastName) {
 	return apiObject.buildNewRequest(booking_serviceName, RequestType.GET)
 	.setUrlArguments("firstname=" + firstName + "&lastname=" + lastName)
 	.performRequest();

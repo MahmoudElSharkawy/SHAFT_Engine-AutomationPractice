@@ -1,4 +1,4 @@
-package tests;
+package api.restfulBooker.tests;
 
 import org.json.simple.JSONObject;
 import org.testng.annotations.BeforeClass;
@@ -10,9 +10,9 @@ import com.shaft.driver.DriverFactory;
 import com.shaft.validation.Assertions;
 import com.shaft.validation.Verifications;
 
+import api.restfulBooker.objectModels.RestfulBookerApi;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import objectModels.RestfulBookerApi;
 
 public class RestfulBooker_LinearDesign {
     private RestActions apiObject;
