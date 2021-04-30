@@ -72,12 +72,15 @@ public class RestfulBooker_LinearDesign {
 	String lastName = RestActions.getResponseJSONValue(getBookingRes, "lastname");
 	String checkin = RestActions.getResponseJSONValue(getBookingRes, "bookingdates.checkin");
 	String checkout = RestActions.getResponseJSONValue(getBookingRes, "bookingdates.checkout");
+	String totalprice = RestActions.getResponseJSONValue(getBookingRes, "totalprice");
 
 	// Validations
 	Verifications.verifyEquals("Mahmoud", firstName);
 	Verifications.verifyEquals("ElSharkawy", lastName);
 	Verifications.verifyEquals("2020-01-01", checkin);
 	Verifications.verifyEquals("2021-01-01", checkout);
+	Verifications.verifyEquals("1000", totalprice);
+
 	Assertions.assertJSONFileContent(getBookingRes,
 		System.getProperty("jsonFolderPath") + "RestfulBooker/booking.json");
     }
@@ -85,8 +88,8 @@ public class RestfulBooker_LinearDesign {
     @Test(dependsOnMethods = { "createBooking" })
     public void deleteBooking() {
 	Response getBookingId = apiObject.buildNewRequest("booking", RequestType.GET)
-	.setUrlArguments("firstname=Mahmoud&lastname=ElSharkawy")
-	.performRequest();
+		.setUrlArguments("firstname=Mahmoud&lastname=ElSharkawy")
+		.performRequest();
 	String bookingId = RestActions.getResponseJSONValue(getBookingId, "bookingid[0]");
 
 	Response deleteBooking = apiObject.buildNewRequest("booking/" + bookingId, RequestType.DELETE)

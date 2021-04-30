@@ -56,12 +56,15 @@ public class RestfulBooker {
 	String lastName = RestActions.getResponseJSONValue(getBookingRes, "lastname");
 	String checkin = RestActions.getResponseJSONValue(getBookingRes, "bookingdates.checkin");
 	String checkout = RestActions.getResponseJSONValue(getBookingRes, "bookingdates.checkout");
+	String totalprice = RestActions.getResponseJSONValue(getBookingRes, "totalprice");
 
 	// Validations
 	Verifications.verifyEquals("Mahmoud", firstName);
 	Verifications.verifyEquals("ElSharkawy", lastName);
 	Verifications.verifyEquals("2020-01-01", checkin);
 	Verifications.verifyEquals("2021-01-01", checkout);
+	Verifications.verifyEquals("1000", totalprice);
+
 	Assertions.assertJSONFileContent(getBookingRes,
 		System.getProperty("jsonFolderPath") + "RestfulBooker/booking.json");
     }
