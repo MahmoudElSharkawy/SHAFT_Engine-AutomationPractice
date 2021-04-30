@@ -10,7 +10,6 @@ import com.shaft.driver.DriverFactory;
 import com.shaft.validation.Assertions;
 import com.shaft.validation.Verifications;
 
-import api.restfulBooker.objectModels.RestfulBookerApi;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -20,7 +19,7 @@ public class RestfulBooker_LinearDesign {
     @SuppressWarnings("unchecked")
     @BeforeClass
     public void beforeClass() {
-	apiObject = DriverFactory.getAPIDriver(RestfulBookerApi.BASE_URL);
+	apiObject = DriverFactory.getAPIDriver("https://restful-booker.herokuapp.com/");
 
 	JSONObject authentication = new JSONObject();
 	authentication.put("username", "admin");
