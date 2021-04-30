@@ -1,4 +1,4 @@
-package gui.phptravels.tests;
+package gui.tests;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ import com.shaft.gui.element.ElementActions;
 import com.shaft.validation.Assertions;
 import com.shaft.validation.Assertions.ElementAttributeType;
 
-public class SignUp {
+public class PHPTRAVELS_SignUp {
     Date date = new Date();
     String email = "test" + date.getTime() + "@test.com";
 

@@ -1,4 +1,4 @@
-package api.restfulBooker.tests;
+package api.tests;
 
 import org.json.simple.JSONObject;
 import org.testng.annotations.BeforeClass;

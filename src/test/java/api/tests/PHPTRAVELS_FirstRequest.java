@@ -1,4 +1,4 @@
-package api.restfulBooker.tests;
+package api.tests;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,18 +11,17 @@ import com.shaft.driver.DriverFactory;
 
 import io.restassured.http.ContentType;
 
-
-public class FirstRequest {
+public class PHPTRAVELS_FirstRequest {
     @Test
-    public void firstRequest() {	
+    public void firstRequest() {
 	List<List<Object>> formParams = Arrays.asList(
-		Arrays.asList("firstname", "mahmoud"), 
-		Arrays.asList("lastname", "elsharkawy"),
+		Arrays.asList("firstname", "mahmoud"),
+		Arrays.asList("lastname", "elsharkawy"), 
 		Arrays.asList("phone", "12345678901"),
-		Arrays.asList("email", "test01@test.com"),
+		Arrays.asList("email", "test01@test.com"), 
 		Arrays.asList("password", "12345678"),
 		Arrays.asList("confirmpassword", "12345678"));
-	
+
 	DriverFactory.getAPIDriver("https://www.phptravels.net/")
 		.buildNewRequest("account/signup", RequestType.POST)
 		.setTargetStatusCode(200)

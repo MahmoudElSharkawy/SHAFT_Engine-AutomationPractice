@@ -1,4 +1,4 @@
-package api.restfulBooker.tests;
+package api.tests;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

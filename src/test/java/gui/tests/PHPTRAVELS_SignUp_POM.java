@@ -1,4 +1,4 @@
-package gui.phptravels.tests;
+package gui.tests;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ import gui.phptravels.pages.HomePage;
 import gui.phptravels.pages.ProfilePage;
 import gui.phptravels.pages.SignUpPage;
 
-public class SignUp_POM {
+public class PHPTRAVELS_SignUp_POM {
     private WebDriver driver;
 
     private HomePage homePage;
