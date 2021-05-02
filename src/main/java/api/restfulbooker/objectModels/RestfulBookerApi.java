@@ -1,4 +1,4 @@
-package api.restfulBooker.objectModels;
+package api.restfulbooker.objectModels;
 
 import org.json.simple.JSONObject;
 

@@ -8,8 +8,8 @@ import com.shaft.driver.DriverFactory;
 import com.shaft.validation.Assertions;
 import com.shaft.validation.Verifications;
 
-import api.restfulBooker.objectModels.RestfulBookerApi;
-import api.restfulBooker.objectModels.RestfulBookerApiBooking;
+import api.restfulbooker.objectModels.RestfulBookerApi;
+import api.restfulbooker.objectModels.RestfulBookerApiBooking;
 import io.qameta.allure.Description;
 import io.restassured.response.Response;
 
