@@ -13,10 +13,12 @@ public class ProfilePage {
 	this.driver = driver;
     }
 
-    // Element Locators
+    // Elements Locators
     private By hiMessage_text = By.xpath("//h3[contains(.,'Hi, ')]");
 
-    // Actions
+    //////////////////////////////////////////////////////
+    ////////////////////// Actions //////////////////////
+    
     public String getHiMessageText() {
 	return ElementActions.getText(driver, hiMessage_text);
     }

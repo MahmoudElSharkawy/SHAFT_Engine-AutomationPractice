@@ -10,25 +10,28 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class RestfulBookerApi {
-    // Variables
     private RestActions apiObject;
 
+    // Base URL
     public static final String BASE_URL = System.getProperty("baseUrl");
 
     // Status Codes
     public static final int SUCCESS = 200;
     public static final int SUCCESS_DELETE = 201;
 
-    // Service Names
+    // Services Names
     private String auth_serviceName = "auth";
 
     // Constructor
     public RestfulBookerApi(RestActions apiObject) {
 	this.apiObject = apiObject;
     }
-
+    
+    //////////////////////////////////////////////////////
+    ////////////////////// Actions //////////////////////
+    
     @SuppressWarnings("unchecked")
-    @Step("Login")
+    @Step("Login with Username: {username} and Password: {password}")
     public void login(String username, String password) {
 	JSONObject authentication = new JSONObject();
 	authentication.put("username", username);

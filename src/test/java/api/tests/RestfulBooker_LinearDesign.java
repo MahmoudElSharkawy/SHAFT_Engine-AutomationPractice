@@ -19,12 +19,13 @@ public class RestfulBooker_LinearDesign {
     @SuppressWarnings("unchecked")
     @BeforeClass
     public void beforeClass() {
+	// Initialise the API Driver object to start from here!
 	apiObject = DriverFactory.getAPIDriver("https://restful-booker.herokuapp.com/");
 
+	// Login
 	JSONObject authentication = new JSONObject();
 	authentication.put("username", "admin");
 	authentication.put("password", "password123");
-
 	Response createToken = apiObject.buildNewRequest("auth", RequestType.POST)
 		.setRequestBody(authentication)
 		.setContentType(ContentType.JSON)
@@ -41,7 +42,6 @@ public class RestfulBooker_LinearDesign {
     @Test
     public void getBooking() {
 	apiObject.buildNewRequest("booking/" + "1", RequestType.GET).performRequest();
-
     }
 
     @SuppressWarnings("unchecked")

@@ -20,6 +20,7 @@ public class RestfulBooker {
 
     @BeforeClass
     public void beforeClass() {
+	// Initialise the API Driver and the object classes objects to start from here!
 	apiObject = DriverFactory.getAPIDriver(RestfulBookerApi.BASE_URL);
 	restfulBookerApi = new RestfulBookerApi(apiObject);
 	restfulBookerApiBooking = new RestfulBookerApiBooking(apiObject);
@@ -50,7 +51,7 @@ public class RestfulBooker {
 	// Get the created booking id
 	String bookingId = RestActions.getResponseJSONValue(createBookingRes, "bookingid");
 
-	// Get the created booking values
+	// Get the created booking parameters values
 	Response getBookingRes = restfulBookerApiBooking.getBooking(bookingId);
 	String firstName = RestActions.getResponseJSONValue(getBookingRes, "firstname");
 	String lastName = RestActions.getResponseJSONValue(getBookingRes, "lastname");

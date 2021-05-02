@@ -24,7 +24,9 @@ public class SignUpPage {
     private By confirmPassword_textField = By.name("confirmpassword");
     private By signUp_button = By.xpath("//button[contains(.,' Sign Up')]");
 
-    // Actions
+    //////////////////////////////////////////////////////
+    ////////////////////// Actions //////////////////////
+    
     @Step("User Sign Up with Test Data --> First Name: [{firstName}], Last Name: [{lastName}], Phone Number: [{phone}], Email: [{email}], password: [{password}],")
     public void userSignUp(String firstName, String lastName, String phone, String email, String password) {
 	new ElementActions(driver)

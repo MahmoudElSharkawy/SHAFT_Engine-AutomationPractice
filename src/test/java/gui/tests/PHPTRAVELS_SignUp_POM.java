@@ -35,7 +35,7 @@ public class PHPTRAVELS_SignUp_POM {
 	profilePage = new ProfilePage(driver);
     }
 
-    @Test(description = "Validate The Sign Up")
+    @Test(description = "Validate The Sign Up feature")
     public void signUp() {
 	homePage.navigateToSignUpPage();
 	signUpPage.userSignUp("Mahmoud", "ElSharkawy", "12345678909", email, "12345678");

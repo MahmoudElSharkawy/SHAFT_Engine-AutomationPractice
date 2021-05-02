@@ -10,30 +10,32 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class RestfulBookerApiBooking {
-    // Variables
     private RestActions apiObject;
 
-    // Service Names
+    // Services Names
     private String booking_serviceName = "booking";
 
     // Constructor
     public RestfulBookerApiBooking(RestActions apiObject) {
 	this.apiObject = apiObject;
     }
+      
+    //////////////////////////////////////////////////////
+    ////////////////////// Actions //////////////////////
 
-    @Step("Get Booking Ids")
+    @Step("Get all Booking Ids")
     public Response getBookingIds() {
 	return apiObject.buildNewRequest(booking_serviceName, RequestType.GET).performRequest();
     }
     
-    @Step("Get Booking Ids By Names")
+    @Step("Get and filter the Booking Ids By FirstName: [{firstName}] and Last Name: [{lastName}]")
     public Response getBookingIds(String firstName, String lastName) {
 	return apiObject.buildNewRequest(booking_serviceName, RequestType.GET)
 	.setUrlArguments("firstname=" + firstName + "&lastname=" + lastName)
 	.performRequest();
     }
 
-    @Step("Get Booking")
+    @Step("Get a Booking details by the Booking Id: [{bookingId}]")
     public Response getBooking(String bookingId) {
 	return apiObject.buildNewRequest("booking/" + bookingId, RequestType.GET).performRequest();
     }
@@ -47,7 +49,7 @@ public class RestfulBookerApiBooking {
 		.performRequest();
     }
 
-    @Step("Delete Booking")
+    @Step("Delete a Booking by Id: [{bookingId}]")
     public Response deleteBooking(String bookingId) {
 	return apiObject.buildNewRequest(booking_serviceName + "/" + bookingId, RequestType.DELETE)
 		.setTargetStatusCode(RestfulBookerApi.SUCCESS_DELETE)
@@ -60,11 +62,11 @@ public class RestfulBookerApiBooking {
     private JSONObject createBookingBody(String firstName, String lastName, int totalPrice, boolean depositePaid,
 	    String checkIn, String checkOut, String additionalNeeds) {
 	JSONObject createBookingBody = new JSONObject();
-	JSONObject bookingDates = new JSONObject();
 	createBookingBody.put("firstname", firstName);
 	createBookingBody.put("lastname", lastName);
 	createBookingBody.put("totalprice", totalPrice);
 	createBookingBody.put("depositpaid", depositePaid);
+	JSONObject bookingDates = new JSONObject();
 	bookingDates.put("checkin", checkIn);
 	bookingDates.put("checkout", checkOut);
 	createBookingBody.put("bookingdates", bookingDates);

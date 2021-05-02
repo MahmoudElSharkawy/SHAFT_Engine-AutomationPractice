@@ -16,7 +16,7 @@ public class PHPTRAVELS_SignUp {
     Date date = new Date();
     String email = "test" + date.getTime() + "@test.com";
 
-    @Test
+    @Test(description = "Validate The Sign Up feature")
     public void userSignUp() {
 	WebDriver driver = DriverFactory.getDriver();
 	BrowserActions.navigateToURL(driver, "https://www.phptravels.net/home");
