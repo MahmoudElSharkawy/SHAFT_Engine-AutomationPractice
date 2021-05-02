@@ -21,6 +21,8 @@ public class RestfulBookerApi {
 
     // Services Names
     private String auth_serviceName = "auth";
+//    private static String auth_serviceName = "auth";
+
 
     // Constructor
     public RestfulBookerApi(RestActions apiObject) {
@@ -44,5 +46,21 @@ public class RestfulBookerApi {
 	String token = RestActions.getResponseJSONValue(createToken, "token");
 	apiObject.addHeaderVariable("Cookie", "token=" + token);
     }
+    
+    // A static version of the login method to be used statically in other classes
+//    @SuppressWarnings("unchecked")
+//    @Step("Login with Username: {username} and Password: {password}")
+//    public void login(RestActions apiObject, String username, String password) {
+//	JSONObject authentication = new JSONObject();
+//	authentication.put("username", username);
+//	authentication.put("password", password);
+//
+//	Response createToken = apiObject.buildNewRequest(auth_serviceName, RequestType.POST)
+//		.setRequestBody(authentication)
+//		.setContentType(ContentType.JSON)
+//		.performRequest();
+//	String token = RestActions.getResponseJSONValue(createToken, "token");
+//	apiObject.addHeaderVariable("Cookie", "token=" + token);
+//    }
 
 }

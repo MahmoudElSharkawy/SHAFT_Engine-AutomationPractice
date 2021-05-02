@@ -71,8 +71,24 @@ public class RestfulBookerApiBooking {
 	bookingDates.put("checkout", checkOut);
 	createBookingBody.put("bookingdates", bookingDates);
 	createBookingBody.put("additionalneeds", additionalNeeds);
-
+	
 	return createBookingBody;
+	
+	/* NOTE!!: We use the java.util.ArrayList<Object> when we want to have an ArrayList that has a JSONObject that's inside a big JSONObject
+	 * Example:
+	 * ArrayList<Object> arrayObject = new ArrayList<>();
+	 * arrayObject.add(JSONObject); 
+	 * {
+	 * 	{
+	 * 	},
+	 * 	[
+	 * 		{
+	 * 		} 
+	 * 	],
+	 * 	{
+	 * 	}
+	 * }
+	 */
     }
 
 }
