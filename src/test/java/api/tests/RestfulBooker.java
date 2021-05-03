@@ -14,6 +14,8 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import io.qameta.allure.TmsLink;
 import io.restassured.response.Response;
@@ -39,6 +41,7 @@ public class RestfulBooker {
 
     @Test(description = "Get Booking Ids")
     @Description("Returns the ids of all the bookings that exist within the API. Can take optional query strings to search and return a subset of booking ids.")
+    @Severity(SeverityLevel.MINOR)
     @Story("Booking")
     @TmsLink("Test_case")
     @Issue("Software_bug")
@@ -48,6 +51,7 @@ public class RestfulBooker {
 
     @Test(description = "Get Booking")
     @Description("Returns a specific booking based upon the booking id provided")
+    @Severity(SeverityLevel.BLOCKER)
     @Story("Booking")
     @TmsLink("Test_case")
     @Issue("Software_bug")
@@ -57,6 +61,7 @@ public class RestfulBooker {
 
     @Test(description = "Create Booking")
     @Description("Creates a new booking in the API")
+    @Severity(SeverityLevel.CRITICAL)
     @Story("Booking")
     @TmsLink("Test_case")
     @Issue("Software_bug")
@@ -88,6 +93,7 @@ public class RestfulBooker {
 
     @Test(description = "Delete Booking", dependsOnMethods = { "createBooking" })
     @Description("Returns the ids of all the bookings that exist within the API. Can take optional query strings to search and return a subset of booking ids.")
+    @Severity(SeverityLevel.NORMAL)
     @Story("Booking")
     @TmsLink("Test_case")
     @Issue("Software_bug")
