@@ -13,7 +13,7 @@ public class RestfulBookerApiBooking {
     private RestActions apiObject;
 
     // Services Names
-    private String booking_serviceName = "booking";
+    private String booking_serviceName = "booking/";
 
     // Constructor
     public RestfulBookerApiBooking(RestActions apiObject) {
@@ -37,7 +37,7 @@ public class RestfulBookerApiBooking {
 
     @Step("Get a Booking details by the Booking Id: [{bookingId}]")
     public Response getBooking(String bookingId) {
-	return apiObject.buildNewRequest("booking/" + bookingId, RequestType.GET).performRequest();
+	return apiObject.buildNewRequest(booking_serviceName + bookingId, RequestType.GET).performRequest();
     }
 
     @Step("Create Booking")
@@ -51,7 +51,7 @@ public class RestfulBookerApiBooking {
 
     @Step("Delete a Booking by Id: [{bookingId}]")
     public Response deleteBooking(String bookingId) {
-	return apiObject.buildNewRequest(booking_serviceName + "/" + bookingId, RequestType.DELETE)
+	return apiObject.buildNewRequest(booking_serviceName + bookingId, RequestType.DELETE)
 		.setTargetStatusCode(RestfulBookerApi.SUCCESS_DELETE)
 		.performRequest();
     }
