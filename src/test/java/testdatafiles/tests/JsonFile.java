@@ -3,7 +3,6 @@ package testdatafiles.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.shaft.driver.DriverFactory;
@@ -12,17 +11,13 @@ import com.shaft.gui.element.ElementActions;
 import com.shaft.tools.io.JSONFileManager;
 
 public class JsonFile {
-    WebDriver driver;
-    JSONFileManager jsonFileTestDataReader;
-
-    @BeforeClass
-    public void beforeClass() {
-	jsonFileTestDataReader = new JSONFileManager(System.getProperty("testDataFolderPath") + "JsonFile.json");
-    }
+    private WebDriver driver;
+    JSONFileManager jsonFileTestDataReader = new JSONFileManager(
+	    System.getProperty("testDataFolderPath") + "JsonFile.json");
 
     @Test
     public void jsonFile() {
-	WebDriver driver = DriverFactory.getDriver();
+	driver = DriverFactory.getDriver();
 	BrowserActions.navigateToURL(driver, "https://www.google.com/");
 
 	ElementActions.type(driver, By.name("q"), jsonFileTestDataReader.getTestData("searchData"));
