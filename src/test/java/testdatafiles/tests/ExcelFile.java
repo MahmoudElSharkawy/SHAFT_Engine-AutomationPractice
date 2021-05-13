@@ -3,6 +3,7 @@ package testdatafiles.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.shaft.driver.DriverFactory;
@@ -12,8 +13,12 @@ import com.shaft.tools.io.ExcelFileManager;
 
 public class ExcelFile {
     private WebDriver driver;
-    ExcelFileManager excelFileTestDataReader = new ExcelFileManager(
-	    System.getProperty("testDataFolderPath") + "ExcelFile.xlsx");
+    private ExcelFileManager excelFileTestDataReader;
+
+    @BeforeClass
+    public void beforeClass() {
+	excelFileTestDataReader = new ExcelFileManager(System.getProperty("testDataFolderPath") + "ExcelFile.xlsx");
+    }
 
     @Test
     public void excelFile() {
