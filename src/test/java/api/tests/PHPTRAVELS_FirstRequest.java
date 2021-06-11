@@ -13,8 +13,7 @@ import com.shaft.driver.DriverFactory;
 import io.restassured.http.ContentType;
 
 public class PHPTRAVELS_FirstRequest {
-    Date date = new Date();
-    String email = "test" + date.getTime() + "@test.com";
+    String email = "test" + new Date().getTime() + "@test.com";
     
     @Test
     public void firstRequest() {

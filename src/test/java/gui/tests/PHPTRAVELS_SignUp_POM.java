@@ -31,9 +31,8 @@ public class PHPTRAVELS_SignUp_POM {
     private HomePage homePage;
     private SignUpPage signUpPage;
     private ProfilePage profilePage;
-    
-    Date date = new Date();
-    String email = "test" + date.getTime() + "@test.com";
+
+    String email = "test" + new Date().getTime() + "@test.com";
 
     @BeforeClass
     public void beforeClass() {
