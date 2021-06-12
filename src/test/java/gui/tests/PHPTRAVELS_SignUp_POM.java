@@ -9,7 +9,9 @@ import org.testng.annotations.Test;
 import com.shaft.driver.DriverFactory;
 import com.shaft.gui.browser.BrowserActions;
 import com.shaft.validation.Assertions;
+import com.shaft.validation.Validations;
 import com.shaft.validation.Assertions.ElementAttributeType;
+import com.shaft.validation.ValidationEnums.ElementAttribute;
 
 import gui.phptravels.pages.HomePage;
 import gui.phptravels.pages.ProfilePage;
@@ -54,8 +56,18 @@ public class PHPTRAVELS_SignUp_POM {
 	homePage.navigateToSignUpPage();
 	signUpPage.userSignUp("Mahmoud", "ElSharkawy", "12345678909", email, "12345678");
 
+	// Validations
 	Assertions.assertEquals("Hi, Mahmoud ElSharkawy", profilePage.getHiMessageText());
 	Assertions.assertElementAttribute(driver, profilePage.getHiMessageLocator(), ElementAttributeType.TEXT,
 		"Hi, Mahmoud ElSharkawy");
+	
+	// New Fluent Validations
+	Validations.assertThat()
+	.objectsAreEqual("Hi, Mahmoud ElSharkawy", profilePage.getHiMessageText())
+	.perform();
+	 Validations.assertThat()
+	 .element(driver, profilePage.getHiMessageLocator())
+	 .attributeEquals(ElementAttribute.TEXT, "Hi, Mahmoud ElSharkawy")
+	 .perform();
     }
 }

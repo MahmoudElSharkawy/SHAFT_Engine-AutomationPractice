@@ -8,6 +8,7 @@ import com.shaft.api.RestActions;
 import com.shaft.api.RestActions.RequestType;
 import com.shaft.driver.DriverFactory;
 import com.shaft.validation.Assertions;
+import com.shaft.validation.Validations;
 
 import io.restassured.response.Response;
 
@@ -29,7 +30,11 @@ public class Test_getResponseJSONValueAsList {
 		userCity = RestActions.getResponseJSONValue(user, "address.city");
 	    }
 	}
+	// Validations
 	Assertions.assertEquals("Chelsey Dietrich", userName);
 	Assertions.assertEquals("Roscoeview", userCity);
+	// New Fluent Validations
+	Validations.assertThat().objectsAreEqual("Chelsey Dietrich", userName).perform();
+	Validations.assertThat().objectsAreEqual("Roscoeview", userCity).perform();
     }
 }
