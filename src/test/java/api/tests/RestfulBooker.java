@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import com.shaft.api.RestActions;
 import com.shaft.driver.DriverFactory;
 import com.shaft.validation.Assertions;
-import com.shaft.validation.Validations;
 import com.shaft.validation.Verifications;
 
 import api.restfulbooker.objectModels.RestfulBookerApi;
@@ -89,26 +88,6 @@ public class RestfulBooker {
 	Verifications.verifyEquals("1000", totalprice);
 	Assertions.assertJSONFileContent(getBookingRes,
 		System.getProperty("jsonFolderPath") + "RestfulBooker/booking.json");
-	
-	// New Fluent Validations
-	Validations.verifyThat()
-	.objectsAreEqual("Mahmoud", firstName)
-	.perform();
-	Validations.verifyThat()
-	.objectsAreEqual("ElSharkawy", lastName)
-	.perform();
-	Validations.verifyThat()
-	.objectsAreEqual("2020-01-01", checkin)
-	.perform();
-	Validations.verifyThat()
-	.objectsAreEqual("2021-01-01", checkout)
-	.perform();
-	Validations.verifyThat()
-	.objectsAreEqual("1000", totalprice)
-	.perform();
-	Validations.assertThat()
-	.json(getBookingRes).responseEqualsFileContent(System.getProperty("jsonFolderPath") + "RestfulBooker/booking.json")
-	.perform();
     }
 
     @Test(description = "Delete Booking", dependsOnMethods = { "createBooking" })
@@ -126,10 +105,6 @@ public class RestfulBooker {
 	String deleteBookingBody = RestActions.getResponseBody(deleteBooking);
 	
 	Assertions.assertEquals("Created", deleteBookingBody);
-
-	Validations.assertThat()
-	.objectsAreEqual("Created", deleteBookingBody)
-	.perform();
     }
 
 }
