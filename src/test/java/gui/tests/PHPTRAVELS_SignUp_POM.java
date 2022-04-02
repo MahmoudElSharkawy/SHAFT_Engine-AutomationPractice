@@ -8,8 +8,8 @@ import org.testng.annotations.Test;
 
 import com.shaft.driver.DriverFactory;
 import com.shaft.gui.browser.BrowserActions;
-import com.shaft.validation.Assertions;
-import com.shaft.validation.Assertions.ElementAttributeType;
+import com.shaft.validation.ValidationEnums.ElementAttribute;
+import com.shaft.validation.Validations;
 
 import gui.phptravels.pages.HomePage;
 import gui.phptravels.pages.ProfilePage;
@@ -55,8 +55,8 @@ public class PHPTRAVELS_SignUp_POM {
 	signUpPage.userSignUp("Mahmoud", "ElSharkawy", "12345678909", email, "12345678");
 
 	// Validations
-	Assertions.assertEquals("Hi, Mahmoud ElSharkawy", profilePage.getHiMessageText());
-	Assertions.assertElementAttribute(driver, profilePage.getHiMessageLocator(), ElementAttributeType.TEXT,
-		"Hi, Mahmoud ElSharkawy");
+	Validations.assertThat().object(profilePage.getHiMessageText()).isEqualTo("Hi, Mahmoud ElSharkawy").perform();
+	Validations.assertThat().element(driver, profilePage.getHiMessageLocator()).attribute(ElementAttribute.TEXT)
+		.isEqualTo("Hi, Mahmoud ElSharkawy").perform();
     }
 }

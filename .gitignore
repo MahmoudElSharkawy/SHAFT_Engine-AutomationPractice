@@ -3,3 +3,4 @@
 /extent-reports/
 debug.log
 generate_allure_report.bat
+generateJdk.*

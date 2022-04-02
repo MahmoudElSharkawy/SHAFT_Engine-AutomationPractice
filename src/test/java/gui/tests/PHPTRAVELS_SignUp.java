@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 import com.shaft.driver.DriverFactory;
 import com.shaft.gui.browser.BrowserActions;
 import com.shaft.gui.element.ElementActions;
-import com.shaft.validation.Assertions;
-import com.shaft.validation.Assertions.ElementAttributeType;
+import com.shaft.validation.Validations;
+import com.shaft.validation.ValidationEnums.ElementAttribute;
 
 public class PHPTRAVELS_SignUp {
     String email = "test" + new Date().getTime() + "@test.com";
@@ -31,9 +31,9 @@ public class PHPTRAVELS_SignUp {
 	ElementActions.click(driver, By.xpath("//button[contains(.,' Sign Up')]"));
 
 	// Validations
-	Assertions.assertEquals("Hi, Mahmoud ElSharkawy",
-		ElementActions.getText(driver, By.xpath("//h3[contains(.,'Hi, ')]")));
-	Assertions.assertElementAttribute(driver, By.xpath("//h3[contains(.,'Hi, ')]"), ElementAttributeType.TEXT,
-		"Hi, Mahmoud ElSharkawy");
+	Validations.assertThat().object(ElementActions.getText(driver, By.xpath("//h3[contains(.,'Hi, ')]")))
+		.isEqualTo("Hi, Mahmoud ElSharkawy").perform();
+	Validations.assertThat().element(driver, By.xpath("//h3[contains(.,'Hi, ')]")).attribute(ElementAttribute.TEXT)
+		.isEqualTo("Hi, Mahmoud ElSharkawy").perform();
     }
 }

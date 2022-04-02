@@ -7,8 +7,7 @@ import org.testng.annotations.Test;
 import com.shaft.api.RestActions;
 import com.shaft.api.RestActions.RequestType;
 import com.shaft.driver.DriverFactory;
-import com.shaft.validation.Assertions;
-import com.shaft.validation.Verifications;
+import com.shaft.validation.Validations;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -75,13 +74,24 @@ public class RestfulBooker_LinearDesign {
 	String totalprice = RestActions.getResponseJSONValue(getBookingRes, "totalprice");
 
 	// Validations
-	Verifications.verifyEquals("Mahmoud", firstName);
-	Verifications.verifyEquals("ElSharkawy", lastName);
-	Verifications.verifyEquals("2020-01-01", checkin);
-	Verifications.verifyEquals("2021-01-01", checkout);
-	Verifications.verifyEquals("1000", totalprice);
-	Assertions.assertJSONFileContent(getBookingRes,
-		System.getProperty("jsonFolderPath") + "RestfulBooker/booking.json");
+	Validations.verifyThat().object(firstName).isEqualTo("Mahmoud").perform();
+	Validations.verifyThat().response(getBookingRes).extractedJsonValue("firstname").isEqualTo("Mahmoud").perform();
+	
+	Validations.verifyThat().object(lastName).isEqualTo("ElSharkawy").perform();
+	Validations.verifyThat().response(getBookingRes).extractedJsonValue("lastname").isEqualTo("ElSharkawy").perform();
+
+	Validations.verifyThat().object(checkin).isEqualTo("2020-01-01").perform();
+	Validations.verifyThat().response(getBookingRes).extractedJsonValue("bookingdates.checkin").isEqualTo("2020-01-01").perform();
+
+	Validations.verifyThat().object(checkout).isEqualTo("2021-01-01").perform();
+	Validations.verifyThat().response(getBookingRes).extractedJsonValue("bookingdates.checkout").isEqualTo("2021-01-01").perform();
+
+	Validations.verifyThat().object(totalprice).isEqualTo("1000").perform();
+	Validations.verifyThat().response(getBookingRes).extractedJsonValue("totalprice").isEqualTo("1000").perform();
+
+	Validations.assertThat().response(getBookingRes)
+		.isEqualToFileContent(System.getProperty("testJsonFolderPath") + "RestfulBooker/booking.json")
+		.perform();
     }
 
     @Test(dependsOnMethods = { "createBooking" })
@@ -97,7 +107,7 @@ public class RestfulBooker_LinearDesign {
 
 	String deleteBookingBody = RestActions.getResponseBody(deleteBooking);
 	
-	Assertions.assertEquals("Created", deleteBookingBody);
+	Validations.assertThat().object(deleteBookingBody).isEqualTo("Created").perform();
     }
 
 }
