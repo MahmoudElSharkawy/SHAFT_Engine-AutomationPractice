@@ -4,3 +4,8 @@
 debug.log
 generate_allure_report.bat
 generateJdk.*
+.settings
+.classpath
+.project
+/.idea/
+/bin/
