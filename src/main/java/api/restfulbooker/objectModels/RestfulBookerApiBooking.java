@@ -2,21 +2,20 @@ package api.restfulbooker.objectModels;
 
 import org.json.simple.JSONObject;
 
-import com.shaft.api.RestActions;
-import com.shaft.api.RestActions.RequestType;
+import com.shaft.driver.SHAFT;
 
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class RestfulBookerApiBooking {
-    private RestActions apiObject;
+    private SHAFT.API apiObject;
 
     // Services Names
     private String booking_serviceName = "booking/";
 
     // Constructor
-    public RestfulBookerApiBooking(RestActions apiObject) {
+    public RestfulBookerApiBooking(SHAFT.API apiObject) {
 	this.apiObject = apiObject;
     }
       
@@ -25,35 +24,35 @@ public class RestfulBookerApiBooking {
 
     @Step("Get all Booking Ids")
     public Response getBookingIds() {
-	return apiObject.buildNewRequest(booking_serviceName, RequestType.GET).performRequest();
+	return apiObject.get(booking_serviceName).perform();
     }
     
     @Step("Get and filter the Booking Ids By FirstName: [{firstName}] and Last Name: [{lastName}]")
     public Response getBookingIds(String firstName, String lastName) {
-	return apiObject.buildNewRequest(booking_serviceName, RequestType.GET)
+	return apiObject.get(booking_serviceName)
 	.setUrlArguments("firstname=" + firstName + "&lastname=" + lastName)
-	.performRequest();
+	.perform();
     }
 
     @Step("Get a Booking details by the Booking Id: [{bookingId}]")
     public Response getBooking(String bookingId) {
-	return apiObject.buildNewRequest(booking_serviceName + bookingId, RequestType.GET).performRequest();
+	return apiObject.get(booking_serviceName + bookingId).perform();
     }
 
     @Step("Create Booking")
     public Response createBooking(String firstName, String lastName, int totalPrice, boolean depositePaid,
 	    String checkIn, String checkOut, String additionalNeeds) {
-	return apiObject.buildNewRequest(booking_serviceName, RequestType.POST)
+	return apiObject.post(booking_serviceName)
 		.setRequestBody(createBookingBody(firstName, lastName, totalPrice, depositePaid, checkIn, checkOut, additionalNeeds))
 		.setContentType(ContentType.JSON)
-		.performRequest();
+		.perform();
     }
 
     @Step("Delete a Booking by Id: [{bookingId}]")
     public Response deleteBooking(String bookingId) {
-	return apiObject.buildNewRequest(booking_serviceName + bookingId, RequestType.DELETE)
+	return apiObject.delete(booking_serviceName + bookingId)
 		.setTargetStatusCode(RestfulBookerApi.SUCCESS_DELETE)
-		.performRequest();
+		.perform();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////

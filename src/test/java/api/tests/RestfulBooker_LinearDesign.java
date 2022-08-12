@@ -5,42 +5,40 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.shaft.api.RestActions;
-import com.shaft.api.RestActions.RequestType;
-import com.shaft.driver.DriverFactory;
-import com.shaft.validation.Validations;
+import com.shaft.driver.SHAFT;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class RestfulBooker_LinearDesign {
-    private RestActions apiObject;
+    private SHAFT.API apiObject;
 
     @SuppressWarnings("unchecked")
     @BeforeClass
     public void beforeClass() {
 	// Initialise the API Driver object to start from here!
-	apiObject = DriverFactory.getAPIDriver("https://restful-booker.herokuapp.com/");
+	apiObject = new SHAFT.API("https://restful-booker.herokuapp.com/");
 
 	// Login
 	JSONObject authentication = new JSONObject();
 	authentication.put("username", "admin");
 	authentication.put("password", "password123");
-	Response createToken = apiObject.buildNewRequest("auth", RequestType.POST)
+	Response createToken = apiObject.post("auth")
 		.setRequestBody(authentication)
 		.setContentType(ContentType.JSON)
-		.performRequest();
+		.perform();
 	String token = RestActions.getResponseJSONValue(createToken, "token");
-	apiObject.addHeaderVariable("Cookie", "token=" + token);
+	apiObject.addHeader("Cookie", "token=" + token);
     }
 
     @Test
     public void getBookingIds() {
-	apiObject.buildNewRequest("booking", RequestType.GET).performRequest();
+	apiObject.get("booking").perform();
     }
 
     @Test
     public void getBooking() {
-	apiObject.buildNewRequest("booking/" + "1", RequestType.GET).performRequest();
+	apiObject.get("booking/" + "1").perform();
     }
 
     @SuppressWarnings("unchecked")
@@ -59,55 +57,39 @@ public class RestfulBooker_LinearDesign {
 	createBookingBody.put("additionalneeds", "IceCream");
 
 	// Create new booking
-	Response createBookingRes = apiObject.buildNewRequest("booking", RequestType.POST)
+	Response createBookingRes = apiObject.post("booking")
 		.setRequestBody(createBookingBody)
 		.setContentType(ContentType.JSON)
-		.performRequest();
+		.perform();
 	String bookingId = RestActions.getResponseJSONValue(createBookingRes, "bookingid");
 
 	// Get the created booking values
-	Response getBookingRes = apiObject.buildNewRequest("booking/" + bookingId, RequestType.GET).performRequest();
-	String firstName = RestActions.getResponseJSONValue(getBookingRes, "firstname");
-	String lastName = RestActions.getResponseJSONValue(getBookingRes, "lastname");
-	String checkin = RestActions.getResponseJSONValue(getBookingRes, "bookingdates.checkin");
-	String checkout = RestActions.getResponseJSONValue(getBookingRes, "bookingdates.checkout");
-	String totalprice = RestActions.getResponseJSONValue(getBookingRes, "totalprice");
+	apiObject.get("booking/" + bookingId).perform();
+	apiObject.assertThatResponse().extractedJsonValue("firstname").isEqualTo("Mahmoud").perform();
+	apiObject.assertThatResponse().extractedJsonValue("lastname").isEqualTo("ElSharkawy").perform();
+	apiObject.assertThatResponse().extractedJsonValue("bookingdates.checkin").isEqualTo("2020-01-01").perform();
+	apiObject.assertThatResponse().extractedJsonValue("bookingdates.checkout").isEqualTo("2021-01-01").perform();
+	apiObject.assertThatResponse().extractedJsonValue("totalprice").isEqualTo("1000").perform();
 
-	// Validations
-	Validations.verifyThat().object(firstName).isEqualTo("Mahmoud").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("firstname").isEqualTo("Mahmoud").perform();
-	
-	Validations.verifyThat().object(lastName).isEqualTo("ElSharkawy").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("lastname").isEqualTo("ElSharkawy").perform();
-
-	Validations.verifyThat().object(checkin).isEqualTo("2020-01-01").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("bookingdates.checkin").isEqualTo("2020-01-01").perform();
-
-	Validations.verifyThat().object(checkout).isEqualTo("2021-01-01").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("bookingdates.checkout").isEqualTo("2021-01-01").perform();
-
-	Validations.verifyThat().object(totalprice).isEqualTo("1000").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("totalprice").isEqualTo("1000").perform();
-
-	Validations.assertThat().response(getBookingRes)
+	apiObject.assertThatResponse()
 		.isEqualToFileContent(System.getProperty("testJsonFolderPath") + "RestfulBooker/booking.json")
 		.perform();
     }
 
     @Test(dependsOnMethods = { "createBooking" })
     public void deleteBooking() {
-	Response getBookingId = apiObject.buildNewRequest("booking", RequestType.GET)
+	Response getBookingId = apiObject.get("booking")
 		.setUrlArguments("firstname=Mahmoud&lastname=ElSharkawy")
-		.performRequest();
-	String bookingId = RestActions.getResponseJSONValue(getBookingId, "bookingid[0]");
+		.perform();
+	String bookingId = RestActions.getResponseJSONValue(getBookingId, "$[0].bookingid");
 
-	Response deleteBooking = apiObject.buildNewRequest("booking/" + bookingId, RequestType.DELETE)
+	Response deleteBooking = apiObject.delete("booking/" + bookingId)
 		.setTargetStatusCode(201)
-		.performRequest();
+		.perform();
 
-	String deleteBookingBody = RestActions.getResponseBody(deleteBooking);
+	RestActions.getResponseBody(deleteBooking);
 	
-	Validations.assertThat().object(deleteBookingBody).isEqualTo("Created").perform();
+	apiObject.assertThatResponse().extractedJsonValue("$").isEqualTo("Created").perform();
     }
 
 }

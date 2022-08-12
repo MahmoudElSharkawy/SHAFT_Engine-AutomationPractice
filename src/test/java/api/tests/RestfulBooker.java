@@ -4,8 +4,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.shaft.api.RestActions;
-import com.shaft.driver.DriverFactory;
-import com.shaft.validation.Validations;
+import com.shaft.driver.SHAFT;
 
 import api.restfulbooker.objectModels.RestfulBookerApi;
 import api.restfulbooker.objectModels.RestfulBookerApiBooking;
@@ -22,14 +21,14 @@ import io.restassured.response.Response;
 @Epic("API")
 @Feature("Restful-Booker")
 public class RestfulBooker {
-    private RestActions apiObject;
+    private SHAFT.API apiObject;
     private RestfulBookerApi restfulBookerApi;
     private RestfulBookerApiBooking restfulBookerApiBooking;
 
     @BeforeClass
     public void beforeClass() {
 	// Initialise the API Driver and the object classes objects to start from here!
-	apiObject = DriverFactory.getAPIDriver(RestfulBookerApi.BASE_URL);
+	apiObject = new SHAFT.API(RestfulBookerApi.BASE_URL);
 	restfulBookerApi = new RestfulBookerApi(apiObject);
 	restfulBookerApiBooking = new RestfulBookerApiBooking(apiObject);
 	
@@ -72,32 +71,17 @@ public class RestfulBooker {
 	String bookingId = RestActions.getResponseJSONValue(createBookingRes, "bookingid");
 
 	// Get the created booking parameters values
-	Response getBookingRes = restfulBookerApiBooking.getBooking(bookingId);
-	String firstName = RestActions.getResponseJSONValue(getBookingRes, "firstname");	
-	String lastName = RestActions.getResponseJSONValue(getBookingRes, "lastname");
-	String checkin = RestActions.getResponseJSONValue(getBookingRes, "bookingdates.checkin");
-	String checkout = RestActions.getResponseJSONValue(getBookingRes, "bookingdates.checkout");
-	String totalprice = RestActions.getResponseJSONValue(getBookingRes, "totalprice");
+	restfulBookerApiBooking.getBooking(bookingId);
+	apiObject.assertThatResponse().extractedJsonValue("firstname").isEqualTo("Mahmoud").perform();
+	apiObject.assertThatResponse().extractedJsonValue("lastname").isEqualTo("ElSharkawy").perform();
+	apiObject.assertThatResponse().extractedJsonValue("bookingdates.checkin").isEqualTo("2020-01-01").perform();
+	apiObject.assertThatResponse().extractedJsonValue("bookingdates.checkout").isEqualTo("2021-01-01").perform();
+	apiObject.assertThatResponse().extractedJsonValue("totalprice").isEqualTo("1000").perform();
 
-	// Validations
-	Validations.verifyThat().object(firstName).isEqualTo("Mahmoud").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("firstname").isEqualTo("Mahmoud").perform();
-	
-	Validations.verifyThat().object(lastName).isEqualTo("ElSharkawy").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("lastname").isEqualTo("ElSharkawy").perform();
-
-	Validations.verifyThat().object(checkin).isEqualTo("2020-01-01").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("bookingdates.checkin").isEqualTo("2020-01-01").perform();
-
-	Validations.verifyThat().object(checkout).isEqualTo("2021-01-01").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("bookingdates.checkout").isEqualTo("2021-01-01").perform();
-
-	Validations.verifyThat().object(totalprice).isEqualTo("1000").perform();
-	Validations.verifyThat().response(getBookingRes).extractedJsonValue("totalprice").isEqualTo("1000").perform();
-
-	Validations.assertThat().response(getBookingRes)
+	apiObject.assertThatResponse()
 		.isEqualToFileContent(System.getProperty("testJsonFolderPath") + "RestfulBooker/booking.json")
 		.perform();
+
     }
 
     @Test(description = "Delete Booking", dependsOnMethods = { "createBooking" })
@@ -108,13 +92,11 @@ public class RestfulBooker {
     @Issue("Software_bug")
     public void deleteBooking() {
 	Response getBookingId = restfulBookerApiBooking.getBookingIds("Mahmoud", "ElSharkawy");
-	String bookingId = RestActions.getResponseJSONValue(getBookingId, "bookingid[0]");
+	String bookingId = RestActions.getResponseJSONValue(getBookingId, "$[0].bookingid");
 
-	Response deleteBooking = restfulBookerApiBooking.deleteBooking(bookingId);
-
-	String deleteBookingBody = RestActions.getResponseBody(deleteBooking);
+	restfulBookerApiBooking.deleteBooking(bookingId);
+	apiObject.assertThatResponse().extractedJsonValue("$").isEqualTo("Created").perform();
 	
-	Validations.assertThat().object(deleteBookingBody).isEqualTo("Created").perform();
     }
 
 }

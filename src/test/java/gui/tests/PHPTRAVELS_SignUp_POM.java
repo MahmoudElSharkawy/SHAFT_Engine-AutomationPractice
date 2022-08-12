@@ -2,17 +2,12 @@ package gui.tests;
 
 import java.util.Date;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.shaft.driver.DriverFactory;
-import com.shaft.gui.browser.BrowserActions;
-import com.shaft.validation.ValidationEnums.ElementAttribute;
-import com.shaft.validation.Validations;
+import com.shaft.driver.SHAFT;
 
 import gui.phptravels.pages.HomePage;
-import gui.phptravels.pages.ProfilePage;
 import gui.phptravels.pages.SignUpPage;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -26,22 +21,20 @@ import io.qameta.allure.TmsLink;
 @Epic("Web GUI")
 @Feature("PHPTRAVELS")
 public class PHPTRAVELS_SignUp_POM {
-    private WebDriver driver;
+    private SHAFT.GUI.WebDriver driver;
 
     private HomePage homePage;
     private SignUpPage signUpPage;
-    private ProfilePage profilePage;
 
     String email = "test" + new Date().getTime() + "@test.com";
 
     @BeforeClass
     public void beforeClass() {
-	driver = DriverFactory.getDriver();
-	BrowserActions.navigateToURL(driver, "https://www.phptravels.net/home");
+	driver = new SHAFT.GUI.WebDriver();
+	driver.browser().navigateToURL("https://www.phptravels.net");
 
 	homePage = new HomePage(driver);
 	signUpPage = new SignUpPage(driver);
-	profilePage = new ProfilePage(driver);
     }
 
     @Test(description = "Validate The Sign Up feature")
@@ -55,8 +48,7 @@ public class PHPTRAVELS_SignUp_POM {
 	signUpPage.userSignUp("Mahmoud", "ElSharkawy", "12345678909", email, "12345678");
 
 	// Validations
-	Validations.assertThat().object(profilePage.getHiMessageText()).isEqualTo("Hi, Mahmoud ElSharkawy").perform();
-	Validations.assertThat().element(driver, profilePage.getHiMessageLocator()).attribute(ElementAttribute.TEXT)
-		.isEqualTo("Hi, Mahmoud ElSharkawy").perform();
+	driver.assertThat().element(signUpPage.getSuccessfullMessageLocator()).text()
+		.contains("Signup successfull please login.").perform();
     }
 }

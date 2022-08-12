@@ -3,14 +3,14 @@ package api.restfulbooker.objectModels;
 import org.json.simple.JSONObject;
 
 import com.shaft.api.RestActions;
-import com.shaft.api.RestActions.RequestType;
+import com.shaft.driver.SHAFT;
 
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class RestfulBookerApi {
-    private RestActions apiObject;
+    private SHAFT.API apiObject;
 
     // Base URL
     public static final String BASE_URL = System.getProperty("baseUrl");
@@ -25,7 +25,7 @@ public class RestfulBookerApi {
 
 
     // Constructor
-    public RestfulBookerApi(RestActions apiObject) {
+    public RestfulBookerApi(SHAFT.API apiObject) {
 	this.apiObject = apiObject;
     }
     
@@ -39,12 +39,12 @@ public class RestfulBookerApi {
 	authentication.put("username", username);
 	authentication.put("password", password);
 
-	Response createToken = apiObject.buildNewRequest(auth_serviceName, RequestType.POST)
+	Response createToken = apiObject.post(auth_serviceName)
 		.setRequestBody(authentication)
 		.setContentType(ContentType.JSON)
-		.performRequest();
+		.perform();
 	String token = RestActions.getResponseJSONValue(createToken, "token");
-	apiObject.addHeaderVariable("Cookie", "token=" + token);
+	apiObject.addHeader("Cookie", "token=" + token);
     }
     
     // A static version of the login method to be used statically in other classes
