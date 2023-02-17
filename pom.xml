@@ -5,7 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<!-- Make sure to star the project on github to get notified and update to the latest version: https://github.com/MohabMohie/SHAFT_ENGINE/releases -->
-		<shaft_engine.version>6.3.20220808</shaft_engine.version>
+		<shaft_engine.version>6.4.20221108</shaft_engine.version>
 	</properties>
 	<repositories>
 		<repository>

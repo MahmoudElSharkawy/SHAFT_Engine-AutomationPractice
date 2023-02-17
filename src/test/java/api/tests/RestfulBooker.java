@@ -79,7 +79,7 @@ public class RestfulBooker {
 	apiObject.assertThatResponse().extractedJsonValue("totalprice").isEqualTo("1000").perform();
 
 	apiObject.assertThatResponse()
-		.isEqualToFileContent(System.getProperty("testJsonFolderPath") + "RestfulBooker/booking.json")
+		.isEqualToFileContent(System.getProperty("testDataFolderPath") + "TestJsonFiles/RestfulBooker/booking.json")
 		.perform();
 
     }
