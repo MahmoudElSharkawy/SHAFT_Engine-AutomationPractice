@@ -34,6 +34,6 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
       with:
-        name: results1
+        check_name: results1
         files: |
           target/surefire-reports/TEST-*.xml
